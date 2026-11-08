@@ -208,13 +208,13 @@ export default css`
   }
 
   clock-weather-card-forecast-strip-item .attribute {
-    font-size: 0.72em;
+    font-size: 0.85em;
     opacity: 0.65;
     color: var(--info-color, #4a90d9);
     line-height: 1;
     min-height: 1em;
     display: flex;
-    max-width: calc(5em / 0.72);
+    max-width: calc(5em / 0.85);
     align-items: center;
     gap: 2px;
     margin-top: 2px;
@@ -223,7 +223,7 @@ export default css`
   /* Extra rows get a little more air so stacked values stay readable. */
   clock-weather-card-forecast-strip-item .attribute--second,
   clock-weather-card-forecast-strip-item .attribute--third {
-    margin-top: 5px;
+    margin-top: 0.5em;
   }
 
   clock-weather-card-forecast-strip-item .attribute-value {
