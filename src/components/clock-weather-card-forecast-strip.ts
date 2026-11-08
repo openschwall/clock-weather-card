@@ -39,6 +39,7 @@ class ClockWeatherCardForecastStrip extends AbstractForecastSection {
             <span class="skeleton skeleton--label"></span>
             ${this.config.forecast_strip.hide_attribute ? nothing : html`<span class="skeleton skeleton--attribute"></span>`}
             ${this.config.forecast_strip.attribute_2 ? html`<span class="skeleton skeleton--attribute"></span>` : nothing}
+            ${this.config.forecast_strip.attribute_3 ? html`<span class="skeleton skeleton--attribute"></span>` : nothing}
           </div>
         `)}
       </div>
@@ -47,7 +48,7 @@ class ClockWeatherCardForecastStrip extends AbstractForecastSection {
 
   protected renderForecast(_entityId: string, forecastType: SectionForecastType): TemplateResult {
     const { sun_entity, timeZone, locale, temperatureUnit, temperatureSensor } = this.config
-    const { count, animated_icons, weather_icon_type, round_temperatures, hide_sunrise_sunset, time_pattern, attribute, hide_attribute, attribute_icon, attribute_color, attribute_unit, attribute_2, attribute_2_icon, attribute_2_color, attribute_2_unit } = this.config.forecast_strip
+    const { count, animated_icons, weather_icon_type, round_temperatures, hide_sunrise_sunset, time_pattern, attribute, hide_attribute, attribute_icon, attribute_color, attribute_unit, attribute_2, attribute_2_icon, attribute_2_color, attribute_2_unit, attribute_3, attribute_3_icon, attribute_3_color, attribute_3_unit } = this.config.forecast_strip
     const now = this.currentDate
 
     const visible = this.visibleRows(count, time_pattern)
@@ -70,6 +71,7 @@ class ClockWeatherCardForecastStrip extends AbstractForecastSection {
     }
     const firstAttribute = hide_attribute ? null : attributeColumn(attribute, attribute_icon, attribute_color, attribute_unit)
     const secondAttribute = attribute_2 ? attributeColumn(attribute_2, attribute_2_icon, attribute_2_color ?? attribute_color, attribute_2_unit) : null
+    const thirdAttribute = attribute_3 ? attributeColumn(attribute_3, attribute_3_icon, attribute_3_color ?? attribute_color, attribute_3_unit) : null
 
     const sensorTemperature = forecastType === 'hourly' ? hassService.getSensorTemperature(this.hass, temperatureSensor, temperatureUnit) : null
 
@@ -89,6 +91,7 @@ class ClockWeatherCardForecastStrip extends AbstractForecastSection {
           temperatureUnit,
           attribute: firstAttribute ? firstAttribute(i) : null,
           attribute2: secondAttribute ? secondAttribute(i) : null,
+          attribute3: thirdAttribute ? thirdAttribute(i) : null,
         },
       }
     })
@@ -111,6 +114,7 @@ class ClockWeatherCardForecastStrip extends AbstractForecastSection {
           sunEvent: { kind, label: translationsService.t(locale, kind === 'sunrise' ? 'misc.sunrise' : 'misc.sunset') },
           attribute: firstAttribute ? firstAttribute(null) : null,
           attribute2: secondAttribute ? secondAttribute(null) : null,
+          attribute3: thirdAttribute ? thirdAttribute(null) : null,
         },
       }))
 

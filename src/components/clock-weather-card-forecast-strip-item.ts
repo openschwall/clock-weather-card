@@ -14,7 +14,7 @@ class ClockWeatherCardForecastStripItem extends AbstractClockWeatherCardComponen
   @property({ attribute: false }) public item!: ForecastStripItem
 
   public render(): TemplateResult {
-    const { label, condition, isNight, animatedIcon, weatherIconType, temperature, temperatureLow, temperatureUnit, sunEvent, attribute, attribute2 } = this.item
+    const { label, condition, isNight, animatedIcon, weatherIconType, temperature, temperatureLow, temperatureUnit, sunEvent, attribute, attribute2, attribute3 } = this.item
     const attributeClass = weatherIconType === 'monochrome' ? 'attribute attribute--monochrome' : 'attribute'
     const renderAttribute = (a: ForecastStripAttribute | null, extraClass = ''): TemplateResult | typeof nothing => a
       ? html`<span class=${`${attributeClass}${extraClass}`} style=${a.color ? `color: ${a.color}` : nothing}>${a.value !== null ? html`${a.icon ? html`<ha-icon icon=${a.icon}></ha-icon>` : nothing}<span class="attribute-value">${a.value}</span>` : nothing}</span>`
@@ -34,6 +34,7 @@ class ClockWeatherCardForecastStripItem extends AbstractClockWeatherCardComponen
       ${temperatureLow === null || temperatureLow === undefined ? nothing : html`<span class="temperature-low">${temperatureLow}${temperatureUnit}</span>`}
       ${renderAttribute(attribute)}
       ${renderAttribute(attribute2, ' attribute--second')}
+      ${renderAttribute(attribute3, ' attribute--third')}
     `
   }
 }

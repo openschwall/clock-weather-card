@@ -448,6 +448,10 @@ When the configured columns do not fit the card width, the strip scrolls horizon
 | `attribute_2_icon` | string | no | none | Icon shown before each value of the second row. |
 | `attribute_2_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each value of the second row. Values are not converted. Set to `""` to show no unit. |
 | `attribute_2_color` | string | no | `attribute_color` | CSS color of the second row. |
+| `attribute_3` | string | no | none | Optional third numeric forecast attribute, shown in a further row below the second one. Works like `attribute_2`. |
+| `attribute_3_icon` | string | no | none | Icon shown before each value of the third row. |
+| `attribute_3_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each value of the third row. Values are not converted. Set to `""` to show no unit. |
+| `attribute_3_color` | string | no | `attribute_color` | CSS color of the third row. |
 
 #### `forecast_list`
 

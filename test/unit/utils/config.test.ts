@@ -77,6 +77,10 @@ describe('resolveConfig', () => {
           attribute_2_icon: null,
           attribute_2_color: null,
           attribute_2_unit: null,
+          attribute_3: null,
+          attribute_3_icon: null,
+          attribute_3_color: null,
+          attribute_3_unit: null,
           font_size: null,
         },
         forecast_list: {
