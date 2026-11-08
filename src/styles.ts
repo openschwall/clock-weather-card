@@ -147,6 +147,7 @@ export default css`
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: thin;
+    padding-bottom: 8px;
     /* Without it, the strip's min-content width is all its items, widening 1fr grid columns. */
     contain: inline-size;
   }
@@ -217,7 +218,7 @@ export default css`
     max-width: calc(5em / 0.85);
     align-items: center;
     gap: 2px;
-    margin-top: 2px;
+    margin-top: 0.5em;
   }
 
   /* Extra rows get a little more air so stacked values stay readable. */
