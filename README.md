@@ -444,6 +444,10 @@ When the configured columns do not fit the card width, the strip scrolls horizon
 | `attribute_icon` | string | no | `mdi:water` if `attribute` is unset, otherwise none | Icon shown before each attribute value. |
 | `attribute_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each attribute value, overriding the resolved one. Values are not converted. Set to `""` to show no unit. |
 | `attribute_color` | string | no | `#3988EF` if `attribute` is unset, otherwise the theme's info color (text color with `weather_icon_type: monochrome`) | CSS color of the attribute row, e.g. `"#4a90d9"` or `var(--warning-color)`. Applies regardless of `weather_icon_type`. |
+| `attribute_2` | string | no | none | Optional second numeric forecast attribute, shown in an additional row below the first one, e.g. `precipitation` below `precipitation_probability`. Zero precipitation is left blank like in the first row. Not affected by `hide_attribute`. |
+| `attribute_2_icon` | string | no | none | Icon shown before each value of the second row. |
+| `attribute_2_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each value of the second row. Values are not converted. Set to `""` to show no unit. |
+| `attribute_2_color` | string | no | `attribute_color` | CSS color of the second row. |
 
 #### `forecast_list`
 

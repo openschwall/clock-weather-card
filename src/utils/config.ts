@@ -138,6 +138,10 @@ function validateConfig(config: ClockWeatherCardConfig, hass: HomeAssistant): vo
   assertNonEmptyString('sections.forecast_strip.attribute_color', strip?.attribute_color)
   assertNonEmptyString('sections.forecast_list.attribute', list?.attribute)
   assertString('sections.forecast_strip.attribute_unit', strip?.attribute_unit)
+  assertNonEmptyString('sections.forecast_strip.attribute_2', strip?.attribute_2)
+  assertNonEmptyString('sections.forecast_strip.attribute_2_icon', strip?.attribute_2_icon)
+  assertNonEmptyString('sections.forecast_strip.attribute_2_color', strip?.attribute_2_color)
+  assertString('sections.forecast_strip.attribute_2_unit', strip?.attribute_2_unit)
   assertString('sections.forecast_list.attribute_unit', list?.attribute_unit)
   header?.rows?.forEach((row, i) => {
     assertEnumValue(`sections.header.rows[${i}].alignment`, row.alignment, ROW_ALIGNMENTS)
@@ -253,6 +257,10 @@ export function resolveConfig(config: ClockWeatherCardConfig, hass: HomeAssistan
       attribute_icon: strip.attribute ? null : 'mdi:water',
       attribute_color: defaultAttributeColor(strip, strip.weather_icon_type ?? inherited.weather_icon_type),
       attribute_unit: null,
+      attribute_2: null,
+      attribute_2_icon: null,
+      attribute_2_color: null,
+      attribute_2_unit: null,
       font_size: null,
       ...strip,
       attributeRequired: strip.attribute !== undefined && strip.hide_attribute !== true,

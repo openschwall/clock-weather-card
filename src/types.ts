@@ -140,6 +140,10 @@ export interface ClockWeatherCardConfig extends LovelaceCardConfig {
       attribute_icon?: string
       attribute_color?: string
       attribute_unit?: string
+      attribute_2?: string
+      attribute_2_icon?: string
+      attribute_2_color?: string
+      attribute_2_unit?: string
       font_size?: string
     }
     forecast_list?: {
@@ -166,7 +170,7 @@ type SectionsConfig = Required<NonNullable<ClockWeatherCardConfig['sections']>>
 type Resolved<T, Nullable extends keyof T = never> = { [K in keyof T]-?: Exclude<T[K], undefined> | (K extends Nullable ? null : never) }
 
 export type ResolvedHeaderConfig = Resolved<SectionsConfig['header'], 'weather_icon_size'>
-export type ResolvedForecastStripConfig = Resolved<SectionsConfig['forecast_strip'], 'attribute_icon' | 'attribute_color' | 'attribute_unit' | 'font_size'> & { attributeRequired: boolean }
+export type ResolvedForecastStripConfig = Resolved<SectionsConfig['forecast_strip'], 'attribute_icon' | 'attribute_color' | 'attribute_unit' | 'attribute_2' | 'attribute_2_icon' | 'attribute_2_color' | 'attribute_2_unit' | 'font_size'> & { attributeRequired: boolean }
 export type ResolvedForecastListConfig = Resolved<SectionsConfig['forecast_list'], 'attribute_unit' | 'font_size'>
 
 export interface ResolvedConfig {
@@ -206,13 +210,16 @@ export interface DailyWeatherForecast extends WeatherForecast {
   templow: number
 }
 
+export interface ForecastStripAttribute { icon: string | null, color: string | null, value: string | null }
+
 export type ForecastStripItem = {
   label: string
   condition: string
   isNight: boolean
   animatedIcon: boolean
   weatherIconType: WeatherIconType
-  attribute: { icon: string | null, color: string | null, value: string | null } | null
+  attribute: ForecastStripAttribute | null
+  attribute2: ForecastStripAttribute | null
 } & (
   | { temperature: string | null, temperatureLow: string | null, temperatureUnit: TemperatureUnit, sunEvent?: never }
   | { sunEvent: { kind: 'sunrise' | 'sunset', label: string }, temperature?: never, temperatureLow?: never, temperatureUnit?: never }

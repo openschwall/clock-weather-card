@@ -73,6 +73,10 @@ describe('resolveConfig', () => {
           attribute_icon: 'mdi:water',
           attribute_color: '#3988EF',
           attribute_unit: null,
+          attribute_2: null,
+          attribute_2_icon: null,
+          attribute_2_color: null,
+          attribute_2_unit: null,
           font_size: null,
         },
         forecast_list: {
