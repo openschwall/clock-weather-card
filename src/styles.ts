@@ -220,6 +220,12 @@ export default css`
     margin-top: 2px;
   }
 
+  /* Extra rows get a little more air so stacked values stay readable. */
+  clock-weather-card-forecast-strip-item .attribute--second,
+  clock-weather-card-forecast-strip-item .attribute--third {
+    margin-top: 5px;
+  }
+
   clock-weather-card-forecast-strip-item .attribute-value {
     min-width: 0;
     overflow: hidden;
