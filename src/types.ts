@@ -165,6 +165,10 @@ export interface ClockWeatherCardConfig extends LovelaceCardConfig {
       weather_icon_type?: WeatherIconType
       attribute?: string
       attribute_unit?: string
+      attribute_2?: string
+      attribute_2_icon?: string
+      attribute_2_color?: string
+      attribute_2_unit?: string
       gradient?: Record<number, string>
     }
   }
@@ -175,7 +179,7 @@ type Resolved<T, Nullable extends keyof T = never> = { [K in keyof T]-?: Exclude
 
 export type ResolvedHeaderConfig = Resolved<SectionsConfig['header'], 'weather_icon_size'>
 export type ResolvedForecastStripConfig = Resolved<SectionsConfig['forecast_strip'], 'attribute_icon' | 'attribute_color' | 'attribute_unit' | 'attribute_2' | 'attribute_2_icon' | 'attribute_2_color' | 'attribute_2_unit' | 'attribute_3' | 'attribute_3_icon' | 'attribute_3_color' | 'attribute_3_unit' | 'font_size'> & { attributeRequired: boolean }
-export type ResolvedForecastListConfig = Resolved<SectionsConfig['forecast_list'], 'attribute_unit' | 'font_size'>
+export type ResolvedForecastListConfig = Resolved<SectionsConfig['forecast_list'], 'attribute_unit' | 'attribute_2' | 'attribute_2_icon' | 'attribute_2_color' | 'attribute_2_unit' | 'font_size'>
 
 export interface ResolvedConfig {
   entity: string
@@ -248,6 +252,8 @@ export interface ForecastListItem {
   gradientStops: GradientStop[]
   showCurrentIndicator: boolean
   currentTempPercent: number
+  // undefined: no attribute_2 configured, so no column is rendered
+  attribute2?: ForecastStripAttribute
 }
 
 export type ForecastType = 'hourly' | 'daily' | 'twice_daily'

@@ -477,6 +477,10 @@ In hourly mode, the first row is labeled "Now" and the others show the time (see
 | `weather_icon_type` | `fill` \| `flat` \| `line` \| `monochrome` | no | top-level `weather_icon_type` | Visual style for the icons in the forecast list. Falls back to the card's main `weather_icon_type` when unset. |
 | `attribute` | string | no | `temperature` | Forecast attribute shown in the list: `temperature` or any numeric forecast attribute (see [Forecast attributes](#forecast-attributes)). For any attribute other than `temperature`, each row shows a single value right of its bar, which runs from `0` to the row's value; all bars share one axis spanning `0` and every visible value. The current-temperature dot is only shown for `temperature`. |
 | `attribute_unit` | string | no | resolved unit (`temperature_unit` for `temperature`, see [Forecast attributes](#forecast-attributes)) | Unit shown after each value, overriding the resolved one. Values are not converted. Set to `""` to show no unit. |
+| `attribute_2` | string | no | none | Optional numeric forecast attribute shown as a small value right of each row's label, e.g. a daily energy forecast. Zero precipitation is left blank. |
+| `attribute_2_icon` | string | no | none | Icon shown before each `attribute_2` value. |
+| `attribute_2_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each `attribute_2` value. Values are not converted. Set to `""` to show no unit. |
+| `attribute_2_color` | string | no | theme's secondary text color | CSS color of the `attribute_2` values. |
 | `gradient` | map | no | built-in ramp (see below) | Map of value → hex (`#rgb`, `#rrggbb`) or `rgb()` color used to colorize the bars. For `temperature`, keys are in °C regardless of the weather entity's unit; for other attributes, keys are in the attribute's own unit. Colors are linearly interpolated between adjacent stops. |
 
 The built-in gradient is:

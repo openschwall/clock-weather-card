@@ -147,6 +147,10 @@ function validateConfig(config: ClockWeatherCardConfig, hass: HomeAssistant): vo
   assertNonEmptyString('sections.forecast_strip.attribute_3_color', strip?.attribute_3_color)
   assertString('sections.forecast_strip.attribute_3_unit', strip?.attribute_3_unit)
   assertString('sections.forecast_list.attribute_unit', list?.attribute_unit)
+  assertNonEmptyString('sections.forecast_list.attribute_2', list?.attribute_2)
+  assertNonEmptyString('sections.forecast_list.attribute_2_icon', list?.attribute_2_icon)
+  assertNonEmptyString('sections.forecast_list.attribute_2_color', list?.attribute_2_color)
+  assertString('sections.forecast_list.attribute_2_unit', list?.attribute_2_unit)
   header?.rows?.forEach((row, i) => {
     assertEnumValue(`sections.header.rows[${i}].alignment`, row.alignment, ROW_ALIGNMENTS)
     if (row.segments == null) throw requiredConfigMissing(`sections.header.rows[${i}].segments`)
@@ -273,6 +277,6 @@ export function resolveConfig(config: ClockWeatherCardConfig, hass: HomeAssistan
       ...strip,
       attributeRequired: strip.attribute !== undefined && strip.hide_attribute !== true,
     },
-    forecast_list: { ...D.forecast_list, ...inherited, weather_entity: config.entity, attribute_unit: null, font_size: null, gradient: DEFAULT_GRADIENT, ...list },
+    forecast_list: { ...D.forecast_list, ...inherited, weather_entity: config.entity, attribute_unit: null, attribute_2: null, attribute_2_icon: null, attribute_2_color: null, attribute_2_unit: null, font_size: null, gradient: DEFAULT_GRADIENT, ...list },
   }
 }

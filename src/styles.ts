@@ -254,6 +254,10 @@ export default css`
     line-height: 1;
   }
 
+  clock-weather-card-forecast-list .rows--attribute-2 {
+    grid-template-columns: max-content max-content var(--_icon-size) max-content 1fr max-content;
+  }
+
   /* --cwc-list-icon-size is a max() set by font_size. */
   @supports (width: max(1px, 2px)) {
     clock-weather-card-forecast-list .rows {
@@ -278,6 +282,21 @@ export default css`
     overflow-x: clip;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  clock-weather-card-forecast-list-item .attribute-2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.8em;
+    font-weight: 400;
+    color: var(--secondary-text-color);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  clock-weather-card-forecast-list-item .attribute-2 ha-icon {
+    --mdc-icon-size: 1.1em;
   }
 
   clock-weather-card-forecast-list-item clock-weather-card-icon {
