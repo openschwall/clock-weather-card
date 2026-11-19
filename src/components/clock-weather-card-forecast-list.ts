@@ -7,7 +7,7 @@ import { html, nothing } from 'lit'
 import AbstractForecastSection, { type ForecastRow } from '@/components/abstract-forecast-section'
 import hassService from '@/service/hass-service'
 import logger from '@/service/logger'
-import type { ForecastListItem, ForecastStripAttribute, SectionForecastType } from '@/types'
+import type { ForecastListExtraAttribute, ForecastListItem, SectionForecastType } from '@/types'
 import { customElement } from '@/utils/custom-element'
 import { forecastAttributeValue, formatWithUnit, MISSING_VALUE } from '@/utils/forecast-attributes'
 import { gradientStopsForRange, normalizeGradient } from '@/utils/gradient'
@@ -37,13 +37,15 @@ class ClockWeatherCardForecastList extends AbstractForecastSection {
   }
 
   protected renderSkeleton(): TemplateResult {
+    const { count, hide_icon } = this.config.forecast_list
+    const extraColumns = this._extraAttributeConfigs().length
     return html`
       <clock-weather-card-divider></clock-weather-card-divider>
-      <div class=${this.config.forecast_list.attribute_2 ? 'rows rows--attribute-2' : 'rows'} aria-busy="true" style=${this._rowsStyle()}>
-        ${Array.from({ length: this.config.forecast_list.count }, () => html`
+      <div class="rows" aria-busy="true" style=${this._rowsStyle()}>
+        ${Array.from({ length: count }, () => html`
           <span class="skeleton skeleton--label"></span>
-          ${this.config.forecast_list.attribute_2 ? html`<span class="skeleton skeleton--attribute"></span>` : nothing}
-          <span class="skeleton skeleton--icon"></span>
+          ${Array.from({ length: extraColumns }, () => html`<span class="skeleton skeleton--attribute"></span>`)}
+          ${hide_icon ? nothing : html`<span class="skeleton skeleton--icon"></span>`}
           <span class="skeleton skeleton--temperature"></span>
           <span class="skeleton skeleton--bar"></span>
           <span class="skeleton skeleton--temperature"></span>
@@ -53,14 +55,14 @@ class ClockWeatherCardForecastList extends AbstractForecastSection {
   }
 
   protected renderForecast(entityId: string, forecastType: SectionForecastType): TemplateResult {
-    const { gradient, animated_icons, weather_icon_type, attribute, attribute_2, attribute_2_icon, attribute_2_color, attribute_2_unit } = this.config.forecast_list
-    const unit2 = attribute_2 ? attribute_2_unit ?? this.forecastAttributeUnit(attribute_2) : null
-    const attribute2For = (row: ForecastRow): ForecastStripAttribute | undefined => {
-      if (!attribute_2) return undefined
-      const raw = forecastAttributeValue(row.forecast, attribute_2)
-      const value = raw === 0 && (attribute_2 === 'precipitation' || attribute_2 === 'precipitation_probability') ? null : raw
-      return { icon: attribute_2_icon, color: attribute_2_color, value: value === null ? null : formatWithUnit(formatNumber(value, this.config), unit2) }
-    }
+    const { gradient, animated_icons, weather_icon_type, attribute, hide_icon } = this.config.forecast_list
+    const extraConfigs = this._extraAttributeConfigs()
+      .map(c => ({ ...c, resolvedUnit: c.unit ?? this.forecastAttributeUnit(c.attribute) }))
+    const extraAttributesFor = (row: ForecastRow): ForecastListExtraAttribute[] => extraConfigs.map((c) => {
+      const raw = forecastAttributeValue(row.forecast, c.attribute)
+      const value = raw === 0 && (c.attribute === 'precipitation' || c.attribute === 'precipitation_probability') ? null : raw
+      return { column: c.column, icon: c.icon, color: c.color, value: value === null ? null : formatWithUnit(formatNumber(value, this.config), c.resolvedUnit) }
+    })
     const bars = attribute === 'temperature'
       ? this._temperatureBars(entityId, forecastType)
       : this._attributeBars(attribute)
@@ -76,7 +78,7 @@ class ClockWeatherCardForecastList extends AbstractForecastSection {
 
     return html`
       <clock-weather-card-divider></clock-weather-card-divider>
-      <div class=${attribute_2 ? 'rows rows--attribute-2' : 'rows'} style=${this._rowsStyle()}>
+      <div class="rows" style=${this._rowsStyle()}>
         ${bars.map(({ row, lowLabel, highLabel, span, current }) => {
     const item: ForecastListItem = {
       label: row.label,
@@ -91,7 +93,8 @@ class ClockWeatherCardForecastList extends AbstractForecastSection {
       gradientStops: span ? gradientStopsForRange(stops, span.from, span.to) : [],
       showCurrentIndicator: current !== null,
       currentTempPercent: current === null ? 0 : percentFor(current),
-      attribute2: attribute2For(row),
+      hideIcon: hide_icon,
+      extraAttributes: extraAttributesFor(row),
     }
     return html`<clock-weather-card-forecast-list-item .item=${item}></clock-weather-card-forecast-list-item>`
   })}
@@ -100,10 +103,27 @@ class ClockWeatherCardForecastList extends AbstractForecastSection {
   }
 
   private _rowsStyle(): string {
-    const { row_height, bar_thickness, font_size } = this.config.forecast_list
+    const { row_height, bar_thickness, font_size, hide_icon } = this.config.forecast_list
     // Icons grow with a configured font size (2em of the text) but never shrink below row_height.
     const fontStyle = font_size ? `; --cwc-list-font-size: ${font_size}; --cwc-list-icon-size: max(${row_height}, 2em)` : ''
-    return `--cwc-list-row-height: ${row_height}; --cwc-list-bar-thickness: ${toBarThicknessCss(bar_thickness)}${fontStyle}`
+    const columns = [
+      'max-content',
+      ...this._extraAttributeConfigs()
+        .map(() => 'max-content'),
+      ...(hide_icon ? [] : ['var(--_icon-size)']),
+      'max-content 1fr max-content',
+    ].join(' ')
+    return `--cwc-list-row-height: ${row_height}; --cwc-list-bar-thickness: ${toBarThicknessCss(bar_thickness)}; --cwc-list-columns: ${columns}${fontStyle}`
+  }
+
+  private _extraAttributeConfigs(): ExtraAttributeConfig[] {
+    const list = this.config.forecast_list
+    return ([
+      { column: 'attribute-2', attribute: list.attribute_2, icon: list.attribute_2_icon, color: list.attribute_2_color, unit: list.attribute_2_unit },
+      { column: 'attribute-3', attribute: list.attribute_3, icon: list.attribute_3_icon, color: list.attribute_3_color, unit: list.attribute_3_unit },
+      { column: 'attribute-4', attribute: list.attribute_4, icon: list.attribute_4_icon, color: list.attribute_4_color, unit: list.attribute_4_unit },
+    ] as const)
+      .filter((c): c is typeof c & { attribute: string } => c.attribute !== null)
   }
 
   private _temperatureBars(entityId: string, forecastType: SectionForecastType): ListBar[] {
@@ -153,6 +173,14 @@ class ClockWeatherCardForecastList extends AbstractForecastSection {
         }
       })
   }
+}
+
+interface ExtraAttributeConfig {
+  column: string
+  attribute: string
+  icon: string | null
+  color: string | null
+  unit: string | null
 }
 
 interface ListBar {

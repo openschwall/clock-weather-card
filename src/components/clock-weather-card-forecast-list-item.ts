@@ -17,7 +17,7 @@ class ClockWeatherCardForecastListItem extends AbstractClockWeatherCardComponent
       label, condition, isNight, animatedIcon, weatherIconType,
       lowLabel, highLabel,
       barLowPercent, barHighPercent, gradientStops,
-      showCurrentIndicator, currentTempPercent, attribute2,
+      showCurrentIndicator, currentTempPercent, hideIcon, extraAttributes,
     } = this.item
 
     const gradient = gradientStops
@@ -28,15 +28,15 @@ class ClockWeatherCardForecastListItem extends AbstractClockWeatherCardComponent
 
     return html`
       <span class="label" title=${label}>${label}</span>
-      ${attribute2
-    ? html`<span class="attribute-2" style=${attribute2.color ? `color: ${attribute2.color}` : nothing}>${attribute2.value !== null ? html`${attribute2.icon ? html`<ha-icon icon=${attribute2.icon}></ha-icon>` : nothing}<span class="attribute-value">${attribute2.value}</span>` : nothing}</span>`
-    : nothing}
-      <clock-weather-card-icon
+      ${extraAttributes.map(a => html`<span class=${a.column} style=${a.color ? `color: ${a.color}` : nothing}>${a.value !== null ? html`${a.icon ? html`<ha-icon icon=${a.icon}></ha-icon>` : nothing}<span class="attribute-value">${a.value}</span>` : nothing}</span>`)}
+      ${hideIcon
+    ? nothing
+    : html`<clock-weather-card-icon
         .weatherState=${condition}
         .isNight=${isNight}
         .animatedIcon=${animatedIcon}
         .weatherIconType=${weatherIconType}
-      ></clock-weather-card-icon>
+      ></clock-weather-card-icon>`}
       <span class="temperature-low">${lowLabel ?? nothing}</span>
       <div class="bar-track">
         <div class="bar-fill" style=${fillStyle}></div>

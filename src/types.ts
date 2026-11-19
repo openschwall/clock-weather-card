@@ -169,6 +169,15 @@ export interface ClockWeatherCardConfig extends LovelaceCardConfig {
       attribute_2_icon?: string
       attribute_2_color?: string
       attribute_2_unit?: string
+      attribute_3?: string
+      attribute_3_icon?: string
+      attribute_3_color?: string
+      attribute_3_unit?: string
+      attribute_4?: string
+      attribute_4_icon?: string
+      attribute_4_color?: string
+      attribute_4_unit?: string
+      hide_icon?: boolean
       gradient?: Record<number, string>
     }
   }
@@ -179,7 +188,7 @@ type Resolved<T, Nullable extends keyof T = never> = { [K in keyof T]-?: Exclude
 
 export type ResolvedHeaderConfig = Resolved<SectionsConfig['header'], 'weather_icon_size'>
 export type ResolvedForecastStripConfig = Resolved<SectionsConfig['forecast_strip'], 'attribute_icon' | 'attribute_color' | 'attribute_unit' | 'attribute_2' | 'attribute_2_icon' | 'attribute_2_color' | 'attribute_2_unit' | 'attribute_3' | 'attribute_3_icon' | 'attribute_3_color' | 'attribute_3_unit' | 'font_size'> & { attributeRequired: boolean }
-export type ResolvedForecastListConfig = Resolved<SectionsConfig['forecast_list'], 'attribute_unit' | 'attribute_2' | 'attribute_2_icon' | 'attribute_2_color' | 'attribute_2_unit' | 'font_size'>
+export type ResolvedForecastListConfig = Resolved<SectionsConfig['forecast_list'], 'attribute_unit' | 'attribute_2' | 'attribute_2_icon' | 'attribute_2_color' | 'attribute_2_unit' | 'attribute_3' | 'attribute_3_icon' | 'attribute_3_color' | 'attribute_3_unit' | 'attribute_4' | 'attribute_4_icon' | 'attribute_4_color' | 'attribute_4_unit' | 'font_size'>
 
 export interface ResolvedConfig {
   entity: string
@@ -252,8 +261,14 @@ export interface ForecastListItem {
   gradientStops: GradientStop[]
   showCurrentIndicator: boolean
   currentTempPercent: number
-  // undefined: no attribute_2 configured, so no column is rendered
-  attribute2?: ForecastStripAttribute
+  hideIcon: boolean
+  // One entry per configured attribute_2/3/4 column, in that order
+  extraAttributes: ForecastListExtraAttribute[]
+}
+
+export interface ForecastListExtraAttribute extends ForecastStripAttribute {
+  // CSS class of the column, e.g. "attribute-2"
+  column: string
 }
 
 export type ForecastType = 'hourly' | 'daily' | 'twice_daily'

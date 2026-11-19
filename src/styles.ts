@@ -252,17 +252,14 @@ export default css`
   clock-weather-card-forecast-list .rows {
     display: grid;
     --_icon-size: var(--cwc-list-row-height);
-    grid-template-columns: max-content var(--_icon-size) max-content 1fr max-content;
+    /* Label, extra attribute columns, icon, low, bar, high; set inline from the config. */
+    grid-template-columns: var(--cwc-list-columns, max-content var(--_icon-size) max-content 1fr max-content);
     grid-auto-rows: minmax(var(--cwc-list-row-height), auto);
     align-items: center;
     column-gap: 8px;
     font-size: var(--cwc-list-font-size, 1rem);
     font-weight: 500;
     line-height: 1;
-  }
-
-  clock-weather-card-forecast-list .rows--attribute-2 {
-    grid-template-columns: max-content max-content var(--_icon-size) max-content 1fr max-content;
   }
 
   /* --cwc-list-icon-size is a max() set by font_size. */
@@ -291,7 +288,9 @@ export default css`
     white-space: nowrap;
   }
 
-  clock-weather-card-forecast-list-item .attribute-2 {
+  clock-weather-card-forecast-list-item .attribute-2,
+  clock-weather-card-forecast-list-item .attribute-3,
+  clock-weather-card-forecast-list-item .attribute-4 {
     display: inline-flex;
     align-items: center;
     gap: 2px;
@@ -302,7 +301,9 @@ export default css`
     white-space: nowrap;
   }
 
-  clock-weather-card-forecast-list-item .attribute-2 ha-icon {
+  clock-weather-card-forecast-list-item .attribute-2 ha-icon,
+  clock-weather-card-forecast-list-item .attribute-3 ha-icon,
+  clock-weather-card-forecast-list-item .attribute-4 ha-icon {
     --mdc-icon-size: 1.1em;
   }
 

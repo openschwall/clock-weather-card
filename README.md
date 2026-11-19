@@ -481,6 +481,11 @@ In hourly mode, the first row is labeled "Now" and the others show the time (see
 | `attribute_2_icon` | string | no | none | Icon shown before each `attribute_2` value. |
 | `attribute_2_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each `attribute_2` value. Values are not converted. Set to `""` to show no unit. |
 | `attribute_2_color` | string | no | theme's secondary text color | CSS color of the `attribute_2` values. |
+| `attribute_3`, `attribute_4` | string | no | none | Further optional numeric forecast attributes, each shown as its own column after `attribute_2`, e.g. `precipitation` and `precipitation_probability`. Zero precipitation is left blank. |
+| `attribute_3_icon`, `attribute_4_icon` | string | no | none | Icon shown before each value of that column. |
+| `attribute_3_unit`, `attribute_4_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each value of that column. Values are not converted. Set to `""` to show no unit. |
+| `attribute_3_color`, `attribute_4_color` | string | no | theme's secondary text color | CSS color of that column's values. |
+| `hide_icon` | boolean | no | `false` | Hides the weather icon of each row, leaving more room for the attribute columns and the bar. |
 | `gradient` | map | no | built-in ramp (see below) | Map of value → hex (`#rgb`, `#rrggbb`) or `rgb()` color used to colorize the bars. For `temperature`, keys are in °C regardless of the weather entity's unit; for other attributes, keys are in the attribute's own unit. Colors are linearly interpolated between adjacent stops. |
 
 The built-in gradient is:

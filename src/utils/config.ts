@@ -42,7 +42,7 @@ export const DEFAULTS = {
   sections: {
     header: { hide: false, animated_icons: true },
     forecast_strip: { hide: false, forecast_type: 'hourly', count: 24, animated_icons: false, hide_sunrise_sunset: false, hide_attribute: false, time_pattern: DEFAULT_TIME_PATTERN, attribute: 'precipitation_probability' },
-    forecast_list: { hide: false, forecast_type: 'daily', count: 5, row_height: '28px', bar_thickness: '60%', hide_current_temp_indicator: false, animated_icons: false, time_pattern: DEFAULT_TIME_PATTERN, attribute: 'temperature' },
+    forecast_list: { hide: false, forecast_type: 'daily', count: 5, row_height: '28px', bar_thickness: '60%', hide_current_temp_indicator: false, animated_icons: false, time_pattern: DEFAULT_TIME_PATTERN, attribute: 'temperature', hide_icon: false },
   },
 } as const satisfies Partial<ClockWeatherCardConfig>
 
@@ -151,6 +151,12 @@ function validateConfig(config: ClockWeatherCardConfig, hass: HomeAssistant): vo
   assertNonEmptyString('sections.forecast_list.attribute_2_icon', list?.attribute_2_icon)
   assertNonEmptyString('sections.forecast_list.attribute_2_color', list?.attribute_2_color)
   assertString('sections.forecast_list.attribute_2_unit', list?.attribute_2_unit)
+  for (const n of [3, 4] as const) {
+    assertNonEmptyString(`sections.forecast_list.attribute_${n}`, list?.[`attribute_${n}`])
+    assertNonEmptyString(`sections.forecast_list.attribute_${n}_icon`, list?.[`attribute_${n}_icon`])
+    assertNonEmptyString(`sections.forecast_list.attribute_${n}_color`, list?.[`attribute_${n}_color`])
+    assertString(`sections.forecast_list.attribute_${n}_unit`, list?.[`attribute_${n}_unit`])
+  }
   header?.rows?.forEach((row, i) => {
     assertEnumValue(`sections.header.rows[${i}].alignment`, row.alignment, ROW_ALIGNMENTS)
     if (row.segments == null) throw requiredConfigMissing(`sections.header.rows[${i}].segments`)
@@ -277,6 +283,6 @@ export function resolveConfig(config: ClockWeatherCardConfig, hass: HomeAssistan
       ...strip,
       attributeRequired: strip.attribute !== undefined && strip.hide_attribute !== true,
     },
-    forecast_list: { ...D.forecast_list, ...inherited, weather_entity: config.entity, attribute_unit: null, attribute_2: null, attribute_2_icon: null, attribute_2_color: null, attribute_2_unit: null, font_size: null, gradient: DEFAULT_GRADIENT, ...list },
+    forecast_list: { ...D.forecast_list, ...inherited, weather_entity: config.entity, attribute_unit: null, attribute_2: null, attribute_2_icon: null, attribute_2_color: null, attribute_2_unit: null, attribute_3: null, attribute_3_icon: null, attribute_3_color: null, attribute_3_unit: null, attribute_4: null, attribute_4_icon: null, attribute_4_color: null, attribute_4_unit: null, font_size: null, gradient: DEFAULT_GRADIENT, ...list },
   }
 }
