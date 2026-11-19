@@ -59,8 +59,7 @@ class ClockWeatherCardForecastList extends AbstractForecastSection {
     const extraConfigs = this._extraAttributeConfigs()
       .map(c => ({ ...c, resolvedUnit: c.unit ?? this.forecastAttributeUnit(c.attribute) }))
     const extraAttributesFor = (row: ForecastRow): ForecastListExtraAttribute[] => extraConfigs.map((c) => {
-      const raw = forecastAttributeValue(row.forecast, c.attribute)
-      const value = raw === 0 && (c.attribute === 'precipitation' || c.attribute === 'precipitation_probability') ? null : raw
+      const value = forecastAttributeValue(row.forecast, c.attribute)
       return { column: c.column, icon: c.icon, color: c.color, value: value === null ? null : formatWithUnit(formatNumber(value, this.config), c.resolvedUnit) }
     })
     const bars = attribute === 'temperature'

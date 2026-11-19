@@ -26,11 +26,11 @@ test.describe('sections.forecast_list.attribute_2', () => {
       .toHaveText(['3', '5.5', '0'])
   })
 
-  test('leaves zero precipitation blank', async ({ setupCard, clockWeatherCard }) => {
+  test('shows zero precipitation as 0', async ({ setupCard, clockWeatherCard }) => {
     await setupCard({ cardConfig: listConfig('precipitation'), weather: { forecast_daily } })
 
     await expect(clockWeatherCard.locator(VALUES))
-      .toHaveText(['', '1.2 mm', '0.4 mm'])
+      .toHaveText(['0 mm', '1.2 mm', '0.4 mm'])
   })
 
   test('adds the column at runtime when the config changes (no reload)', async ({ setupCard, clockWeatherCard }) => {

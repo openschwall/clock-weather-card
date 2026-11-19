@@ -25,13 +25,13 @@ test.describe('sections.forecast_strip.attribute_3', () => {
       .toHaveCount(0)
   })
 
-  test('shows the third attribute below the temperature, leaving zero precipitation blank', async ({ setupCard, clockWeatherCard }) => {
+  test('shows the third attribute below the temperature, showing zero precipitation as 0', async ({ setupCard, clockWeatherCard }) => {
     await setupCard({ date: FIXED_NOW, cardConfig: stripConfig('precipitation'), weather: { forecast_hourly: FORECAST_HOURLY } })
 
     await expect(clockWeatherCard.locator('clock-weather-card-forecast-strip-item .attribute:not(.attribute--third)'))
       .toHaveText(['30%', '50%', '70%'])
     await expect(clockWeatherCard.locator(SECOND))
-      .toHaveText(['', '0.44 mm', '1.2 mm'])
+      .toHaveText(['0 mm', '0.44 mm', '1.2 mm'])
   })
 
   test('shows the third attribute while the first is hidden', async ({ setupCard, clockWeatherCard }) => {

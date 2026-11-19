@@ -417,7 +417,7 @@ Renders the current-weather icon next to the configurable rows of segments (cloc
 
 #### `forecast_strip`
 
-Renders a horizontally scrolling strip of upcoming hours (`forecast_type: hourly`, default) or days (`forecast_type: daily`) below the header. Each column shows a label, weather icon, temperature and one additional forecast attribute (precipitation probability by default, see `attribute`). Attribute columns without a value, or with a precipitation amount or probability of 0, stay blank; the row keeps its height even when every column is blank. Enabled by default.
+Renders a horizontally scrolling strip of upcoming hours (`forecast_type: hourly`, default) or days (`forecast_type: daily`) below the header. Each column shows a label, weather icon, temperature and one additional forecast attribute (precipitation probability by default, see `attribute`). Attribute columns without a value stay blank, a value of 0 is shown as 0; the row keeps its height even when every column is blank. Enabled by default.
 
 In hourly mode, the first column is labeled "Now" and is sourced from the most recent forecast entry whose timestamp is at or before the current time. Subsequent columns are the upcoming forecast hours.
 
@@ -444,7 +444,7 @@ When the configured columns do not fit the card width, the strip scrolls horizon
 | `attribute_icon` | string | no | `mdi:water` if `attribute` is unset, otherwise none | Icon shown before each attribute value. |
 | `attribute_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each attribute value, overriding the resolved one. Values are not converted. Set to `""` to show no unit. |
 | `attribute_color` | string | no | `#3988EF` if `attribute` is unset, otherwise the theme's info color (text color with `weather_icon_type: monochrome`) | CSS color of the attribute row, e.g. `"#4a90d9"` or `var(--warning-color)`. Applies regardless of `weather_icon_type`. |
-| `attribute_2` | string | no | none | Optional second numeric forecast attribute, shown in an additional row below the first one, e.g. `precipitation` below `precipitation_probability`. Zero precipitation is left blank like in the first row. Not affected by `hide_attribute`. |
+| `attribute_2` | string | no | none | Optional second numeric forecast attribute, shown in an additional row below the first one, e.g. `precipitation` below `precipitation_probability`. Not affected by `hide_attribute`. |
 | `attribute_2_icon` | string | no | none | Icon shown before each value of the second row. |
 | `attribute_2_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each value of the second row. Values are not converted. Set to `""` to show no unit. |
 | `attribute_2_color` | string | no | `attribute_color` | CSS color of the second row. |
@@ -477,11 +477,11 @@ In hourly mode, the first row is labeled "Now" and the others show the time (see
 | `weather_icon_type` | `fill` \| `flat` \| `line` \| `monochrome` | no | top-level `weather_icon_type` | Visual style for the icons in the forecast list. Falls back to the card's main `weather_icon_type` when unset. |
 | `attribute` | string | no | `temperature` | Forecast attribute shown in the list: `temperature` or any numeric forecast attribute (see [Forecast attributes](#forecast-attributes)). For any attribute other than `temperature`, each row shows a single value right of its bar, which runs from `0` to the row's value; all bars share one axis spanning `0` and every visible value. The current-temperature dot is only shown for `temperature`. |
 | `attribute_unit` | string | no | resolved unit (`temperature_unit` for `temperature`, see [Forecast attributes](#forecast-attributes)) | Unit shown after each value, overriding the resolved one. Values are not converted. Set to `""` to show no unit. |
-| `attribute_2` | string | no | none | Optional numeric forecast attribute shown as a small value right of each row's label, e.g. a daily energy forecast. Zero precipitation is left blank. |
+| `attribute_2` | string | no | none | Optional numeric forecast attribute shown as a small value right of each row's label, e.g. a daily energy forecast. |
 | `attribute_2_icon` | string | no | none | Icon shown before each `attribute_2` value. |
 | `attribute_2_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each `attribute_2` value. Values are not converted. Set to `""` to show no unit. |
 | `attribute_2_color` | string | no | theme's secondary text color | CSS color of the `attribute_2` values. |
-| `attribute_3`, `attribute_4` | string | no | none | Further optional numeric forecast attributes, each shown as its own column after `attribute_2`, e.g. `precipitation` and `precipitation_probability`. Zero precipitation is left blank. |
+| `attribute_3`, `attribute_4` | string | no | none | Further optional numeric forecast attributes, each shown as its own column after `attribute_2`, e.g. `precipitation` and `precipitation_probability`. |
 | `attribute_3_icon`, `attribute_4_icon` | string | no | none | Icon shown before each value of that column. |
 | `attribute_3_unit`, `attribute_4_unit` | string | no | resolved unit (see [Forecast attributes](#forecast-attributes)) | Unit shown after each value of that column. Values are not converted. Set to `""` to show no unit. |
 | `attribute_3_color`, `attribute_4_color` | string | no | theme's secondary text color | CSS color of that column's values. |
@@ -502,7 +502,7 @@ gradient:
 
 #### Forecast attributes
 
-`forecast_strip.attribute` and `forecast_list.attribute` accept any numeric attribute of the weather entity's forecast entries, shown as provided (no rounding, except that the strip rounds `precipitation_probability` to the nearest 10 and leaves `precipitation` and `precipitation_probability` blank at 0); non-numeric values are treated as missing. If no forecast entry has the configured attribute, the section renders an inline warning instead (the strip's default `precipitation_probability` is exempt and simply leaves the row blank). The unit is resolved the same way as for the [`weather` segment](#weather) (e.g. `wind_speed_unit` for `wind_speed`, `%` for `humidity`, otherwise the entity's `<attribute>_unit` attribute).
+`forecast_strip.attribute` and `forecast_list.attribute` accept any numeric attribute of the weather entity's forecast entries, shown as provided (no rounding, except that the strip rounds `precipitation_probability` to the nearest 10); non-numeric values are treated as missing. If no forecast entry has the configured attribute, the section renders an inline warning instead (the strip's default `precipitation_probability` is exempt and simply leaves the row blank). The unit is resolved the same way as for the [`weather` segment](#weather) (e.g. `wind_speed_unit` for `wind_speed`, `%` for `humidity`, otherwise the entity's `<attribute>_unit` attribute).
 
 ### Row Options
 

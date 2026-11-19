@@ -58,11 +58,9 @@ class ClockWeatherCardForecastStrip extends AbstractForecastSection {
 
     const attributeColumn = (name: string, icon: string | null, color: string | null, unitOverride: string | null): ((i: number | null) => ForecastStripAttribute) => {
       const unit = unitOverride ?? this.forecastAttributeUnit(name)
-      const hideZero = name === 'precipitation' || name === 'precipitation_probability'
       const values = visible.map(({ forecast }) => {
         const v = forecastAttributeValue(forecast, name)
-        const rounded = v !== null && name === 'precipitation_probability' ? Math.round(v / 10) * 10 : v
-        return hideZero && rounded === 0 ? null : rounded
+        return v !== null && name === 'precipitation_probability' ? Math.round(v / 10) * 10 : v
       })
       return (i) => {
         const value = i === null ? null : values[i]
